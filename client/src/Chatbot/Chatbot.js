@@ -5,18 +5,19 @@ import { saveMessage } from '../_actions/message_actions';
 import Message from './Sections/Message';
 import { List, Icon, Avatar } from 'antd';
 import Card from "./Sections/Card";
+
 function Chatbot() {
     const dispatch = useDispatch();
     const messagesFromRedux = useSelector(state => state.message.messages)
 
     useEffect(() => {
 
-        eventQuery('welcomeToMyWebsite')
+        eventQuery('Welcome')
 
     }, [])
 
 
-    const textQuery = async (text) => {
+    const textQuery = async(text) => {
 
         //  First  Need to  take care of the message I sent     
         let conversation = {
@@ -29,7 +30,7 @@ function Chatbot() {
         }
 
         dispatch(saveMessage(conversation))
-        // console.log('text I sent', conversation)
+            // console.log('text I sent', conversation)
 
         // We need to take care of the message Chatbot sent 
         const textQueryVariables = {
@@ -68,7 +69,7 @@ function Chatbot() {
     }
 
 
-    const eventQuery = async (event) => {
+    const eventQuery = async(event) => {
 
         // We need to take care of the message Chatbot sent 
         const eventQueryVariables = {
@@ -119,81 +120,105 @@ function Chatbot() {
     }
 
     const renderCards = (cards) => {
-        return cards.map((card,i) => <Card key={i} cardInfo={card.structValue} />)
-    }
+            return cards.map((card, i) => < Card key = { i }
+                cardInfo = { card.structValue }
+                />)
+            }
 
 
-    const renderOneMessage = (message, i) => {
-        console.log('message', message)
+            const renderOneMessage = (message, i) => {
+                console.log('message', message)
 
-        // we need to give some condition here to separate message kinds 
+                // we need to give some condition here to separate message kinds 
 
-        // template for normal text 
-        if (message.content && message.content.text && message.content.text.text) {
-            return <Message key={i} who={message.who} text={message.content.text.text} />
-        } else if (message.content && message.content.payload.fields.card) {
-
-            const AvatarSrc = message.who === 'bot' ? <Icon type="robot" /> : <Icon type="smile" />
-
-            return <div>
-                <List.Item style={{ padding: '1rem' }}>
-                    <List.Item.Meta
-                        avatar={<Avatar icon={AvatarSrc} />}
-                        title={message.who}
-                        description={renderCards(message.content.payload.fields.card.listValue.values)}
+                // template for normal text 
+                if (message.content && message.content.text && message.content.text.text) {
+                    return <Message key = { i }
+                    who = { message.who }
+                    text = { message.content.text.text }
                     />
-                </List.Item>
-            </div>
-        }
+                } else if (message.content && message.content.payload.fields.card) {
+
+                    const AvatarSrc = message.who === 'bot' ? < Icon type = "robot" / > : < Icon type = "smile" / >
+
+                        return <div >
+                            <
+                            List.Item style = {
+                                { padding: '1rem' }
+                            } >
+                            <
+                            List.Item.Meta
+                    avatar = { < Avatar icon = { AvatarSrc }
+                        />}
+                        title = { message.who }
+                        description = { renderCards(message.content.payload.fields.card.listValue.values) }
+                        /> < /
+                        List.Item > <
+                        /div>
+                    }
 
 
 
 
 
 
-        // template for card message 
+                    // template for card message 
 
 
 
 
-    }
+                }
 
-    const renderMessage = (returnedMessages) => {
+                const renderMessage = (returnedMessages) => {
 
-        if (returnedMessages) {
-            return returnedMessages.map((message, i) => {
-                return renderOneMessage(message, i);
-            })
-        } else {
-            return null;
-        }
-    }
-
-
-    return (
-        <div style={{
-            height: 700, width: 700,
-            border: '3px solid black', borderRadius: '7px'
-        }}>
-            <div style={{ height: 644, width: '100%', overflow: 'auto' }}>
+                    if (returnedMessages) {
+                        return returnedMessages.map((message, i) => {
+                            return renderOneMessage(message, i);
+                        })
+                    } else {
+                        return null;
+                    }
+                }
 
 
-                {renderMessage(messagesFromRedux)}
+                return ( <
+                    div style = {
+                        {
+                            height: 700,
+                            width: 700,
+                            border: '3px solid black',
+                            borderRadius: '7px'
+                        }
+                    } >
+                    <
+                    div style = {
+                        { height: 644, width: '100%', overflow: 'auto' }
+                    } >
 
 
-            </div>
-            <input
-                style={{
-                    margin: 0, width: '100%', height: 50,
-                    borderRadius: '4px', padding: '5px', fontSize: '1rem'
-                }}
-                placeholder="Send a message..."
-                onKeyPress={keyPressHanlder}
-                type="text"
-            />
+                    { renderMessage(messagesFromRedux) }
 
-        </div>
-    )
-}
 
-export default Chatbot;
+                    <
+                    /div> <
+                    input style = {
+                        {
+                            margin: 0,
+                            width: '100%',
+                            height: 50,
+                            borderRadius: '4px',
+                            padding: '5px',
+                            fontSize: '1rem'
+                        }
+                    }
+                    placeholder = "Send a message..."
+                    onKeyPress = { keyPressHanlder }
+                    type = "text" /
+                    >
+
+                    <
+                    /div>
+                )
+            }
+
+            export default Chatbot;

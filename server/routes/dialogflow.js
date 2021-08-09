@@ -6,9 +6,9 @@ const uuid = require('uuid');
 
 const config = require('../config/keys');
 
-const projectId = config.googleProjectID
-const sessionId = config.dialogFlowSessionID
-const languageCode = config.dialogFlowSessionLanguageCode
+const projectId = 'is-chatbot-gamma-wppq'
+const sessionId = 'bot-session'
+const languageCode = 'ru-Ru'
 
 
 // Create a new session
@@ -20,7 +20,7 @@ const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
 // Text Query Route
 
-router.post('/textQuery', async (req, res) => {
+router.post('/textQuery', async(req, res) => {
     //We need to send some information that comes from the client to Dialogflow API 
     // The text query request.
     const request = {
@@ -49,9 +49,9 @@ router.post('/textQuery', async (req, res) => {
 
 //Event Query Route
 
-router.post('/eventQuery', async (req, res) => {
+router.post('/eventQuery', async(req, res) => {
     //We need to send some information that comes from the client to Dialogflow API 
-    // The text query request.
+    // The event query request.
     const request = {
         session: sessionPath,
         queryInput: {
@@ -73,11 +73,5 @@ router.post('/eventQuery', async (req, res) => {
 
     res.send(result)
 })
-
-
-
-
-
-
 
 module.exports = router;
